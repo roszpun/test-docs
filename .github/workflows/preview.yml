@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm i && BASE_URL=/pr-preview/pr-${{ github.event.pull_request.number }} npm run build
+      - run: npm i && BASE_URL=/test-docs/pr-preview/pr-${{ github.event.pull_request.number }} npm run build
         if: github.event.action != 'closed'
       - uses: rossjrw/pr-preview-action@v1
         with:
