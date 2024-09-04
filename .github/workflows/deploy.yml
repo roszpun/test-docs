@@ -8,12 +8,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Get PR numbers with prefix
+        id: get_pr_numbers
+        run: |
+          pr_list=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?state=open" \
+            | jq -r '.[] | "pr-preview/pr-\(.number)"' \
+            | tr '\n' ' ')
+          echo "pr_list=$pr_list" >> $GITHUB_OUTPUT
+
       - run: npm i && npm run build
+      
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           folder: ./build
           branch: gh-pages
+          clean-exclude: |
+            ${{ steps.get_pr_numbers.outputs.pr_list }}
           force: false
-
-          
