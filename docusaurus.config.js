@@ -13,7 +13,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://roszpun.github.io/',
+  url: 'https://roszpun.github.io',
   organizationName: 'roszpun', // Usually your GitHub org/user name.
   projectName: 'test-docs',
   // Set the /<baseUrl>/ pathname under which your site is served
