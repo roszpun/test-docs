@@ -8,9 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm i && USE_SSH=true npm run deploy
+      - run: npm i && npm run build
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           folder: .
           branch: gh-pages
           force: false
+
+          
