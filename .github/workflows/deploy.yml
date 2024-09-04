@@ -1,24 +1,17 @@
 name: Deploy PR previews
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-
+  push:
+    branches:
+      - main
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-      - name: Install dependencies and build
-        run: |
-          npm ci
-          BASE_URL=/pr-preview/pr-${{ github.event.pull_request.number }} npm run build
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - run: npm i && npm run build
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build  # adjust this to your build output directory
+          folder: .
           branch: gh-pages
-          target-folder: pr-preview/pr-${{ github.event.pull_request.number }}
-          clean: true
+          clean-exclude: pr-preview
+          force: false
